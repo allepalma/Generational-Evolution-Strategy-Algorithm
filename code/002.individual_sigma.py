@@ -73,7 +73,7 @@ def mutation_ind(x, sigma, tao_prime, tao):
     x_prime = x+np.random.normal(0,sigma_prime)
     return x_prime, sigma_prime
 
-
+#The optimization algorithm
 def optimiz(problem):
     n = problem.number_of_variables
     

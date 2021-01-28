@@ -81,6 +81,7 @@ def mutation_one(a, tao):
     return off
         
 
+#The optimization algorithm
 def optimiz(problem):
     #Set the total number of variables (dimensionality)
     n = problem.number_of_variables

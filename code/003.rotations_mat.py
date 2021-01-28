@@ -121,6 +121,7 @@ def mutation_ind(x, sigma, alpha, beta, tao_prime, tao):
 
 '''The algorithm implementing the reproduction cycle''' 
 
+#Optimization algorithm
 def optimiz(problem):
     #Initialize the number of variables
     n = problem.number_of_variables
