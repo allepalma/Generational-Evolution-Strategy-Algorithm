@@ -11,6 +11,9 @@ budget = 10000
 '''Recombination functions'''
 
 def pairs_discrete(x, sigma,lamb):
+    '''
+    Implement the global discrete recombination function
+    '''
     #Initialize the recombinant matrices as filled with zeros
     sigma_rec = np.zeros((lamb,d))
     x_rec = np.zeros((lamb,d))
@@ -29,6 +32,9 @@ def pairs_discrete(x, sigma,lamb):
                 
                         
 def global_discrete(x, sigma,lamb):
+    '''
+    Implement the global intermediate recombination function
+    '''
     #Initialize the recombinant matrix as filled with zeros
     sigma_rec = np.zeros((lamb, d))
     x_rec = np.zeros((lamb, d))
@@ -38,7 +44,11 @@ def global_discrete(x, sigma,lamb):
         x_rec[:,i] = np.random.choice(x[:,i], lamb)
     return x_rec, sigma_rec
 
+
 def global_inter(x, sigma,lamb):
+    '''
+    Implement the pairwise discrete recombination function
+    '''
     #Initialize the average individual with zeros
     x_rec = np.tile(np.mean(x, axis=0),(lamb,1))
     sigma_rec = np.tile(np.mean(sigma, axis=0), (lamb,1))
@@ -46,6 +56,9 @@ def global_inter(x, sigma,lamb):
 
 
 def pairs_inter(x, sigma, lamb):
+    '''
+    Implement the global intermediary recombination function
+    '''
     #Initialize offspring
     x_rec = np.zeros((lamb, d))
     sigma_rec = np.zeros((lamb, d))
@@ -63,18 +76,28 @@ def pairs_inter(x, sigma, lamb):
 
 #Functions to mutate sigma
 def mutate_ind_sigma(sigma,tao_prime, tao):
+    '''
+    Function for the mutation of the step-size vector
+    '''
     sigma_prime = sigma*np.exp(np.random.normal(0,tao_prime,lamb).reshape((-1,1))+np.random.normal(0,tao, sigma.shape))
     return sigma_prime
 
 
 ###The individual sigma strategy
 def mutation_ind(x, sigma, tao_prime, tao):
+    '''
+    Function for the mutation of the solution vector
+    '''
     sigma_prime = mutate_ind_sigma(sigma, tao_prime, tao)
     x_prime = x+np.random.normal(0,sigma_prime)
     return x_prime, sigma_prime
 
 #The optimization algorithm
 def optimiz(problem):
+    '''
+    The function implements the optimization algorithm. After initializing the solutions, it enacts recombination, mutation
+    and selection on the population pool until either we reach convergence or the budget of iterations runs out
+    '''
     n = problem.number_of_variables
     
     fopt = -sys.maxsize-1

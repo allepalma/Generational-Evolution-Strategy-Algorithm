@@ -8,6 +8,9 @@ budget = 10000
 '''Recombination functions'''
 
 def global_discrete(a,lamb,n):
+    '''
+    Implement the global discrete recombination function
+    '''
     #Initialize the vector that will host the offspring
     offspring = []
     #For as many times as many offspring we have
@@ -24,6 +27,9 @@ def global_discrete(a,lamb,n):
     return offspring
 
 def global_inter(a, lamb):
+    '''
+    Implement the global intermediate recombination function
+    '''
     #Initialize the average individual with zeros
     off = np.zeros(d)
     #Initialize the average sigma with zeros
@@ -35,6 +41,9 @@ def global_inter(a, lamb):
     return [couple for _ in range(lamb)]
 
 def pairs_discrete(a,lamb, n):
+    '''
+    Implement the pairwise discrete recombination function
+    '''
     #The total offspring of size mu
     offspring = []
     #Set up the indexes
@@ -55,6 +64,9 @@ def pairs_discrete(a,lamb, n):
 
 
 def pairs_inter(a, lamb):
+    '''
+    Implement the global intermediary recombination function
+    '''
     #Initialize offspring
     off = []
     indexes = np.arange(len(a))
@@ -69,10 +81,16 @@ def pairs_inter(a, lamb):
 
 #Functions to mutate sigma
 def mutate_one_sigma(sigma,tao0):
+    '''
+    Function for the mutation of the step-size vector
+    '''
     return sigma*np.exp(np.random.normal(0,tao0, len(sigma))
 
 #The individual sigma strategy
 def mutation_one(a, tao):
+    '''
+    Function for the mutation of the solution vector
+    '''
     off = []
     for i in range(len(a)):
         sigma_prime = mutate_one_sigma(a[i][1], tao)
@@ -83,6 +101,10 @@ def mutation_one(a, tao):
 
 #The optimization algorithm
 def optimiz(problem):
+    '''
+    The function implements the optimization algorithm. After initializing the solutions, it enacts recombination, mutation
+    and selection on the population pool until either we reach convergence or the budget of iterations runs out
+    '''
     #Set the total number of variables (dimensionality)
     n = problem.number_of_variables
 

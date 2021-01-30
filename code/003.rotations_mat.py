@@ -10,6 +10,9 @@ budget = 10000
 '''Recombination functions'''
 
 def pairs_discrete(x, sigma, alpha, lamb, n):
+    '''
+    Implement the pairs discrete recombination function
+    '''
     #Initialize the recombinant matrices as filled with zeros
     sigma_rec = np.zeros((lamb,n))
     x_rec = np.zeros((lamb,n))
@@ -37,6 +40,9 @@ def pairs_discrete(x, sigma, alpha, lamb, n):
                 
                         
 def global_discrete(x, sigma,alpha,lamb,n):
+    '''
+    Implement the global discrete recombination function
+    '''
     #Initialize the recombinant matrix as filled with zeros
     sigma_rec = np.zeros((lamb, n))
     x_rec = np.zeros((lamb, n))
@@ -57,6 +63,9 @@ def global_discrete(x, sigma,alpha,lamb,n):
 
 
 def global_inter(x, sigma,alpha, lamb):
+    '''
+    Implement the global intermediary recombination function
+    '''
     #Initialize the average individual with zeros
     x_rec = np.tile(np.mean(x, axis=0),(lamb,1))
     sigma_rec = np.tile(np.mean(sigma, axis=0), (lamb,1))
@@ -65,6 +74,9 @@ def global_inter(x, sigma,alpha, lamb):
 
 
 def pairs_inter(x, sigma, alpha, lamb):
+    '''
+    Implement the pairwise intermediary recombination function
+    '''
     #Initialize offspring matrices
     x_rec = np.zeros((lamb, d))
     sigma_rec = np.zeros((lamb, d))
@@ -82,6 +94,11 @@ def pairs_inter(x, sigma, alpha, lamb):
 '''Correlate sigma'''
 
 def correlate_sigma(sigma,alpha):
+    '''
+    The function draws a random mutation vector and applies a series of rotations to
+    it (through the usage of rotational matrices) to correlate all its dimensions between
+    each other.
+    '''
     n = d
     #n_q is the index of the rotational angle used at each iteration
     n_q = ((n-1)*n)//2
@@ -105,12 +122,18 @@ def correlate_sigma(sigma,alpha):
 
 #Functions to mutate sigma
 def mutate_ind_sigma(sigma,tao_prime, tao):
+    '''
+    Function for the mutation of the step-size vector
+    '''
     sigma_prime = sigma*np.exp(np.random.normal(0,tao_prime,lamb).reshape((-1,1))+np.random.normal(0, tao, sigma.shape))
     return sigma_prime
 
 
 #The individual sigma strategy
 def mutation_ind(x, sigma, alpha, beta, tao_prime, tao):
+    '''
+    Function for the mutation of the solution vector
+    '''
     #Implement the mutation of the individuals and parameters
     x_prime = x
     sigma_prime = mutate_ind_sigma(sigma, tao_prime, tao)
@@ -123,6 +146,10 @@ def mutation_ind(x, sigma, alpha, beta, tao_prime, tao):
 
 #Optimization algorithm
 def optimiz(problem):
+    '''
+    The function implements the optimization algorithm. After initializing the solutions, it enacts recombination, mutation
+    and selection on the population pool until either we reach convergence or the budget of iterations runs out
+    '''
     #Initialize the number of variables
     n = problem.number_of_variables
     #Set the initial optimum
